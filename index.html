@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020"><title>ZT Web Studio — Cloud IDE</title>
+<style>
+:root{--bg:#0b1020;--panel:#11182b;--panel2:#151f35;--line:#26324b;--text:#edf3ff;--muted:#91a0bb;--blue:#3478f6;--cyan:#38d9e6;--green:#41d39b;--orange:#ffb86b;--radius:15px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 420px at 20% -15%,#1b2b54 0,transparent 60%),var(--bg);color:var(--text);font:14px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,textarea,select{font:inherit}button{cursor:pointer;color:inherit;border:1px solid var(--line);background:#1a2540;border-radius:10px;padding:9px 12px;transition:.15s}button:hover{border-color:#5578bd;transform:translateY(-1px)}button.primary{background:linear-gradient(135deg,#3478f6,#6559e8);border:0;font-weight:700}button.ghost{background:transparent}button.danger{color:#ffb1b1}button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.topbar{height:66px;display:flex;align-items:center;gap:14px;padding:0 18px;border-bottom:1px solid var(--line);background:#0b1020e8;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:850;font-size:19px;white-space:nowrap}.mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),#3a75ff 55%,#8d66ff);color:#06101d;font-weight:950;font-size:16px;box-shadow:0 5px 25px #3478f644}.subbrand{font-size:11px;color:var(--muted);font-weight:500;display:block;margin-top:-3px}.top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}.status{color:var(--green);font-size:12px;white-space:nowrap}.layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:14px;padding:14px;max-width:1600px;margin:auto}.sidebar,.workspace{min-width:0}.panel{background:linear-gradient(180deg,#121a2d,#0f1628);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}.sidehead{padding:16px 15px 10px;display:flex;align-items:center;justify-content:space-between;font-weight:750}.muted{color:var(--muted)}.section{padding:0 12px 14px}.section-label{text-transform:uppercase;letter-spacing:.12em;color:#8191b0;font-size:10px;font-weight:800;padding:10px 4px}.project-list{display:grid;gap:6px}.project-item{display:flex;gap:8px;align-items:center;padding:10px;border-radius:9px;color:#dce7ff;cursor:pointer;border:1px solid transparent}.project-item.active,.project-item:hover{background:#1a2947;border-color:#2c4168}.project-item span:last-child{margin-left:auto;color:var(--muted);font-size:11px}.template{padding:10px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px;cursor:pointer;background:#121d33}.template strong{display:block;font-size:12px}.template small{color:var(--muted)}.template:hover{border-color:#4c6ca5}.hint{font-size:11px;color:var(--muted);line-height:1.5;padding:4px}
+.welcome{padding:19px 20px;margin-bottom:14px;background:linear-gradient(110deg,#172748,#172039 65%,#242044);border:1px solid #2b3c62;border-radius:var(--radius);display:flex;gap:16px;align-items:center;justify-content:space-between}.welcome h1{margin:0 0 5px;font-size:clamp(20px,3vw,27px);letter-spacing:-.04em}.welcome p{margin:0;color:#aab9d6}.pill{border:1px solid #395278;color:#a8c5ff;border-radius:99px;padding:6px 10px;font-size:11px;white-space:nowrap}
+.editor-panel{margin-bottom:14px}.toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:11px 12px;border-bottom:1px solid var(--line)}.file-title{font-weight:750;margin-right:auto;display:flex;gap:8px;align-items:center}.dot{width:8px;height:8px;background:var(--green);border-radius:50%;display:inline-block}.tabs{display:flex;gap:5px;padding:9px 10px 0;border-bottom:1px solid var(--line);background:#10182a}.tab{border-radius:8px 8px 0 0;background:transparent;border:1px solid transparent;color:var(--muted);padding:9px 13px}.tab.active{background:#1a2943;color:white;border-color:#2b3c5a;border-bottom-color:#1a2943}.editor{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);height:300px;background:#0b1120}.line-numbers{padding:13px 9px;color:#53637e;text-align:right;white-space:pre;overflow:hidden;user-select:none;border-right:1px solid #1e2a40;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}.code{resize:none;border:0;outline:0;background:transparent;color:#dbe7ff;padding:13px 14px;white-space:pre;overflow:auto;tab-size:2;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;width:100%;height:100%;min-width:0}.underbar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#111a2b;border-top:1px solid var(--line);flex-wrap:wrap}.underbar .muted{font-size:11px}.underbar .spacer{flex:1}.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}.panel-title{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-bottom:1px solid var(--line);font-weight:750}.preview-wrap{background:white;min-height:310px}.preview-wrap iframe{width:100%;height:310px;border:0;display:block;background:white}.preview-footer{padding:8px 12px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);display:flex;justify-content:space-between}.ai-body{padding:13px}.ai-body textarea{width:100%;resize:vertical;min-height:95px;background:#0b1120;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;outline:none}.ai-body textarea:focus,input:focus{border-color:#4c82ee}.ai-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.ai-output{white-space:pre-wrap;color:#aebfe0;font-size:12px;max-height:145px;overflow:auto;margin-top:10px}.settings{display:flex;gap:7px;align-items:center}.settings input{width:100%;min-width:0;background:#0b1120;color:var(--text);border:1px solid var(--line);padding:8px;border-radius:8px}.settings label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}.settings-row{padding:12px;border-top:1px solid var(--line);display:grid;gap:8px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:11px 16px;border-radius:12px;background:#eaf1ff;color:#111b30;box-shadow:0 8px 35px #0006;z-index:10;display:none;font-weight:700;max-width:90vw}.mobile-nav{display:none}
+@media(max-width:900px){.layout{grid-template-columns:1fr;padding:9px;gap:10px}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sidebar .panel{min-width:0}.sidebar .panel:first-child{grid-column:1/-1}.welcome{padding:16px}.split{grid-template-columns:1fr}.editor{height:280px}.preview-wrap iframe{height:340px}.topbar{padding:0 12px}.top-actions .wide{display:none}}
+@media(max-width:520px){.topbar{height:58px;gap:9px}.logo{font-size:16px}.mark{width:31px;height:31px}.subbrand{display:none}.top-actions{gap:5px}.top-actions button{padding:8px}.layout{padding:8px}.sidebar{grid-template-columns:1fr}.sidebar .panel:first-child{grid-column:auto}.welcome{align-items:flex-start;gap:8px}.welcome .pill{display:none}.welcome p{font-size:12px}.toolbar{gap:5px;padding:9px}.toolbar button{font-size:11px;padding:8px}.file-title{width:100%;margin-bottom:3px}.tabs{padding-left:6px}.tab{padding:9px 10px;font-size:12px}.editor{height:255px;grid-template-columns:34px minmax(0,1fr)}.line-numbers{padding:12px 5px;font-size:11px}.code{padding:12px 9px;font-size:11px}.underbar{gap:6px}.underbar button{font-size:11px;padding:8px}.preview-wrap iframe{height:300px}.settings-row{padding:10px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo"><div class="mark">ZT</div><div>ZT Web Studio<span class="subbrand">Web · Android · AI · Cloud Build</span></div></div>
+  <div class="top-actions"><span class="status">● Ready</span><button class="ghost wide" id="newBtn">＋ New</button><button class="primary" id="saveBtn">Save project</button></div>
+</header>
+<main class="layout">
+  <aside class="sidebar">
+    <section class="panel">
+      <div class="sidehead">My projects <button id="newProjectBtn" title="New project">＋</button></div>
+      <div class="section"><div id="projectList" class="project-list"></div><div class="hint" id="projectHint">Projects save on this device in this browser.</div></div>
+    </section>
+    <section class="panel">
+      <div class="sidehead">Starter templates</div><div class="section">
+        <div class="template" data-template="landing"><strong>✨ Modern landing page</strong><small>Hero, buttons, feature cards</small></div>
+        <div class="template" data-template="portfolio"><strong>🎨 Personal portfolio</strong><small>Profile, work, contact</small></div>
+        <div class="template" data-template="product"><strong>🛍 Product page</strong><small>Product details and CTA</small></div>
+        <div class="template" data-template="blank"><strong>＋ Blank project</strong><small>Start from scratch</small></div>
+      </div>
+    </section>
+  </aside>
+  <section class="workspace">
+    <div class="welcome"><div><h1>Turn your ideas into websites.</h1><p>Write code, see it live, and export your project — right from your phone.</p></div><span class="pill">MOBILE READY</span></div>
+    <section class="panel editor-panel">
+      <div class="toolbar"><div class="file-title"><span class="dot"></span><span id="projectTitle">Untitled project</span></div><button id="runBtn">▶ Run</button><button id="downloadBtn">⇩ Download</button><button class="danger" id="resetBtn">↻ Reset</button></div>
+      <div class="tabs">
+        <button class="tab active" data-tab="html">🟠 HTML</button><button class="tab" data-tab="css">🔵 CSS</button><button class="tab" data-tab="js">🟡 JS</button>
+      </div>
+      <div class="editor"><div class="line-numbers" id="lineNumbers">1</div><textarea class="code" id="codeEditor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code editor"></textarea></div>
+      <div class="underbar"><span class="muted">● LIVE PREVIEW</span><span class="muted" id="lastRun">Changes update automatically</span><span class="spacer"></span><button id="formatBtn">Format basic</button><button id="copyBtn">Copy code</button></div>
+    </section>
+    <div class="split">
+      <section class="panel">
+        <div class="panel-title"><span>Live preview</span><div><button id="refreshBtn">⟳ Refresh</button></div></div>
+        <div class="preview-wrap"><iframe id="preview" title="Website preview" sandbox="allow-scripts allow-forms allow-modals" referrerpolicy="no-referrer"></iframe></div>
+        <div class="preview-footer"><span><span class="dot"></span> Preview sandbox active</span><span id="previewSize">Responsive canvas</span></div>
+      </section>
+      <section class="panel">
+        <div class="panel-title"><span>✨ AI code assistant</span><span class="pill">BETA</span></div>
+        <div class="ai-body">
+          <p class="muted" style="margin:0 0 10px">Describe a website or a change in Hindi or English. AI can generate HTML, CSS and JavaScript for this editor.</p>
+          <textarea id="aiPrompt" placeholder="Example: Ek gaming team ki website banao, dark theme aur neon blue buttons ke saath..."></textarea>
+          <div class="ai-controls"><button class="primary" id="generateBtn">✦ Generate code</button><button id="improveBtn">Improve current code</button></div>
+          <div class="ai-output" id="aiOutput">Add your AI endpoint below to enable code generation. The editor, templates, preview and downloads work without it.</div>
+        </div>
+        <div class="settings-row">
+          <div><label for="aiEndpoint">AI Worker endpoint (HTTPS URL)</label><input id="aiEndpoint" placeholder="https://your-worker.workers.dev/generate"></div>
+          <div class="hint">The endpoint is saved only in this browser. Keep API keys on the server/Worker — never paste secret keys here.</div>
+          <div><button id="saveEndpoint">Save AI endpoint</button></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+<section class="panel" style="margin-top:14px">
+  <div class="panel-title"><span>🤖 Android Cloud Builder</span><span class="pill">BETA</span></div>
+  <div class="ai-body">
+    <p class="muted" style="margin-top:0">Create an Android project package and submit it to your configured secure build API. APK builds require a deployed backend runner; this UI does not compile APKs inside the browser.</p>
+    <div style="display:grid;gap:10px">
+      <label for="androidAppName" class="muted">App name</label>
+      <input id="androidAppName" value="My ZT App" style="width:100%;background:#0b1120;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px">
+      <label for="androidPackage" class="muted">Application ID (package name)</label>
+      <input id="androidPackage" value="com.example.ztapp" style="width:100%;background:#0b1120;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px">
+      <label for="buildEndpoint" class="muted">Cloud build API URL</label>
+      <input id="buildEndpoint" placeholder="https://your-api.example.com/api/build" style="width:100%;background:#0b1120;color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px">
+      <div class="ai-controls"><button class="primary" id="buildApkBtn">☁ Build APK</button><button id="downloadProjectBtn">⇩ Export project ZIP</button></div>
+      <div class="ai-output" id="buildOutput">Cloud APK build is not connected yet. Configure and deploy the secure build backend, then set its API URL here.</div>
+    </div>
+  </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const defaults={
+ html:`<main class="hero"><div class="badge">✦ ZT Web Studio</div><h1>Build something <span>brilliant.</span></h1><p>A beautiful, responsive website starts with one idea. Make yours real.</p><a class="cta" href="#features">Explore the studio →</a></main><section id="features" class="features"><article><b>⚡ Fast</b><p>Instant live preview as you edit your code.</p></article><article><b>📱 Responsive</b><p>Designed to look great on mobile and desktop.</p></article><article><b>🚀 Yours</b><p>Export your work and take it anywhere.</p></article></section><footer>Made with ✦ ZT Web Studio</footer>`,
+ css:`*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#0b1020;color:#edf3ff}.hero{min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:45px 20px;background:radial-gradient(circle at 50% 0,#293e77,transparent 65%)}.badge{border:1px solid #3d5588;color:#9fc0ff;padding:7px 12px;border-radius:30px;font-size:12px}h1{font-size:clamp(36px,8vw,64px);line-height:1.02;letter-spacing:-.05em;max-width:700px;margin:22px 0 12px}h1 span{color:#64d9e7}p{color:#a7b5d0;line-height:1.7}.hero p{max-width:440px}.cta{background:#3979f6;color:white;text-decoration:none;padding:13px 19px;border-radius:11px;font-weight:700;margin-top:15px}.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:850px;margin:0 auto;padding:28px 18px}.features article{padding:19px;border:1px solid #25334f;border-radius:15px;background:#111a2d}.features b{font-size:16px}.features p{font-size:13px;margin-bottom:0}footer{text-align:center;padding:18px;color:#7789a9;font-size:12px;border-top:1px solid #202c44}@media(max-width:560px){.features{grid-template-columns:1fr}.hero{min-height:300px}}`,
+ js:`document.querySelectorAll('.cta').forEach(link=>link.addEventListener('click',()=>console.log('Welcome to ZT Web Studio!')));`
+};
+const templates={
+ landing:defaults,
+ portfolio:{html:`<header><strong>Alex Morgan</strong><nav><a href="#work">Work</a><a href="#contact">Contact</a></nav></header><main><p class="eyebrow">DESIGNER & DEVELOPER</p><h1>I make digital<br><span>things feel human.</span></h1><p class="intro">I build thoughtful digital experiences for people and brands with a story to tell.</p><a class="button" href="#work">See my work ↗</a></main><section id="work"><h2>Selected work</h2><div class="cards"><article>01 / Brand identity</article><article>02 / Web experience</article><article>03 / Product design</article></div></section><footer id="contact">Have a project in mind? hello@example.com</footer>`,css:`*{box-sizing:border-box}body{margin:0;background:#f4f1e9;color:#20241f;font-family:Arial,sans-serif;padding:0 7%}header{display:flex;justify-content:space-between;padding:24px 0;border-bottom:1px solid #d4d0c6}nav{display:flex;gap:20px}a{color:inherit;text-decoration:none}main{padding:75px 0 65px}.eyebrow{font-size:11px;letter-spacing:.18em}h1{font-size:clamp(42px,8vw,82px);line-height:1.03;letter-spacing:-.06em;margin:25px 0}h1 span{color:#65836b}.intro{max-width:450px;color:#676b63;line-height:1.7}.button{display:inline-block;background:#20241f;color:white;padding:13px 18px;border-radius:5px;margin-top:18px}section{padding:30px 0 70px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.cards article{background:#dfe4d7;padding:35px 15px;min-height:120px;border-radius:8px}footer{padding:25px 0;border-top:1px solid #d4d0c6}@media(max-width:560px){.cards{grid-template-columns:1fr}main{padding-top:50px}}`,js:`document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>console.log('Navigating to',a.hash)));`},
+ product:{html:`<nav><strong>FORM / 01</strong><span>New collection · 2026</span><button id="cart">Bag (0)</button></nav><main><div class="product-art"><div class="orb"></div><span>FORM<br>STUDIO</span></div><div class="details"><p class="eyebrow">DESIGNED FOR EVERY DAY</p><h1>Everyday<br>headphones.</h1><p>Beautiful sound, thoughtful comfort, and a design that goes wherever life takes you.</p><h2>₹4,999</h2><button id="buy">Add to bag ↗</button><small>Free delivery · 1 year warranty</small></div></main>`,css:`*{box-sizing:border-box}body{margin:0;background:#f5f3ef;color:#171917;font-family:Arial,sans-serif;padding:0 6%}nav{height:70px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ddd}nav strong{letter-spacing:.12em}button{border:0;background:#1c2722;color:white;border-radius:30px;padding:12px 18px;cursor:pointer}main{display:grid;grid-template-columns:1.05fr 1fr;gap:8%;align-items:center;max-width:1000px;margin:40px auto}.product-art{min-height:390px;border-radius:18px;background:linear-gradient(145deg,#c9d7ca,#8fa998);display:grid;place-items:center;position:relative;overflow:hidden}.product-art span{position:absolute;left:22px;top:20px;font-size:11px;letter-spacing:.2em}.orb{width:190px;height:190px;border-radius:50%;background:linear-gradient(145deg,#f8f5ed,#5b6c60);box-shadow:20px 25px 40px #253d2c55,inset -10px -10px 20px #263d2c55}.eyebrow{font-size:10px;letter-spacing:.16em;color:#718174}h1{font-size:clamp(38px,6vw,66px);line-height:1;letter-spacing:-.06em;margin:18px 0}p{color:#686f68;line-height:1.7}.details h2{font-size:25px}.details small{display:block;color:#777;margin-top:15px}@media(max-width:650px){main{grid-template-columns:1fr;margin-top:20px;gap:25px}.product-art{min-height:270px}.details{padding-bottom:35px}}`,
+ js:`let count=0;document.getElementById('buy').addEventListener('click',()=>{count++;document.getElementById('cart').textContent='Bag ('+count+')';document.getElementById('buy').textContent='Added ✓';});`},
+ blank:{html:`<h1>Hello, world!</h1><p>Start building your next idea.</p>`,css:`body{font-family:system-ui,sans-serif;padding:24px;color:#202938}h1{color:#3478f6}`,js:`console.log('ZT Web Studio is ready');`}
+};
+let currentTab='html', currentProjectId='default', projects=[];
+const $=id=>document.getElementById(id);
+function readCode(){return {html:currentTab==='html' ? $('codeEditor').value : window.codeState.html,css:currentTab==='css' ? $('codeEditor').value : window.codeState.css,js:currentTab==='js' ? $('codeEditor').value : window.codeState.js}}
+window.codeState={...defaults};
+function syncEditor(){window.codeState[currentTab]=$('codeEditor').value; updateLines(); renderPreview();}
+function switchTab(tab){window.codeState[currentTab]=$('codeEditor').value;currentTab=tab;$('codeEditor').value=window.codeState[tab];document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));updateLines();}
+function updateLines(){const n=$('codeEditor').value.split('\n').length;$('lineNumbers').textContent=Array.from({length:n},(_,i)=>i+1).join('\n');}
+function renderPreview(){window.codeState[currentTab]=$('codeEditor').value;const src=`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>${window.codeState.css.replace(/<\/style/gi,'<\\/style')}</style></head><body>${window.codeState.html}<script>try{${window.codeState.js.replace(/<\/script/gi,'<\\/script')}}catch(e){console.error(e)}<\/script></body></html>`;$('preview').srcdoc=src;$('lastRun').textContent='Updated '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
+function toast(msg){$('toast').textContent=msg;$('toast').style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>$('toast').style.display='none',2300);}
+function makeProject(name,code){return {id:'p'+Date.now(),name,code:{...code},updated:Date.now()};}
+function loadProject(p){currentProjectId=p.id;window.codeState={...p.code};$('projectTitle').textContent=p.name;switchTab('html');$('codeEditor').value=window.codeState.html;updateLines();renderPreview();renderProjects();}
+function renderProjects(){const list=$('projectList');list.innerHTML='';projects.forEach(p=>{const el=document.createElement('div');el.className='project-item'+(p.id===currentProjectId?' active':'');el.innerHTML='<span>▤</span><span style="margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escapeHtml(p.name)+'</span><span>›</span>';el.onclick=()=>loadProject(p);list.appendChild(el);});if(!projects.length)list.innerHTML='<div class="hint">No saved projects yet.</div>';}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function saveProject(){window.codeState[currentTab]=$('codeEditor').value;let p=projects.find(x=>x.id===currentProjectId);if(!p){p=makeProject('My website',window.codeState);projects.unshift(p);currentProjectId=p.id;}else{p.code={...window.codeState};p.updated=Date.now();}p.name=$('projectTitle').textContent;localStorage.setItem('ztws_projects',JSON.stringify(projects));renderProjects();toast('Project saved on this device');}
+function newProject(){const p=makeProject('Untitled project',{html:'<h1>Hello World!</h1>',css:'body{font-family:Arial,sans-serif;padding:24px}',js:''});projects.unshift(p);loadProject(p);$('projectTitle').textContent=p.name;saveProject();}
+function applyTemplate(key){const t=templates[key]||templates.blank;window.codeState={html:t.html,css:t.css,js:t.js};currentProjectId='p'+Date.now();$('projectTitle').textContent=({landing:'Modern landing page',portfolio:'Personal portfolio',product:'Product page',blank:'Untitled project'})[key]||'Untitled project';const p=makeProject($('projectTitle').textContent,window.codeState);p.id=currentProjectId;projects.unshift(p);saveProject();switchTab('html');$('codeEditor').value=window.codeState.html;renderPreview();toast('Template loaded');}
+function downloadProject(){window.codeState[currentTab]=$('codeEditor').value;const all=`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml($('projectTitle').textContent)}</title><style>${window.codeState.css}</style></head><body>${window.codeState.html}<script>${window.codeState.js.replace(/<\/script/gi,'<\\/script')}<\/script></body></html>`;const blob=new Blob([all],{type:'text/html'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='zt-web-studio.html';a.click();URL.revokeObjectURL(url);toast('HTML file downloaded');}
+async function copyCode(){window.codeState[currentTab]=$('codeEditor').value;try{await navigator.clipboard.writeText(window.codeState[currentTab]);toast(currentTab.toUpperCase()+' copied');}catch(e){$('codeEditor').select();document.execCommand('copy');toast('Code copied');}}
+function basicFormat(){const v=$('codeEditor').value; $('codeEditor').value=v.split('\n').map(x=>x.trimEnd()).join('\n').replace(/\n{3,}/g,'\n\n');syncEditor();toast('Basic formatting applied');}
+async function generateAI(improve=false){const endpoint=$('aiEndpoint').value.trim();const prompt=$('aiPrompt').value.trim();if(!endpoint){$('aiOutput').textContent='Pehle AI Worker endpoint set karein. Backend deploy hone ke baad AI generation kaam karega.';toast('AI endpoint required');return;}if(!prompt&&!improve){toast('Describe your website first');return;}const btn=$('generateBtn');btn.disabled=true;$('aiOutput').textContent='AI is thinking…';try{window.codeState[currentTab]=$('codeEditor').value;const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:improve?'Improve this existing website. User request: '+(prompt||'Improve visual design and responsiveness')+'. Preserve current intent.':prompt,html:window.codeState.html,css:window.codeState.css,js:window.codeState.js})});if(!res.ok)throw new Error('Worker returned HTTP '+res.status);const data=await res.json();let result=data.code||data.result||data; if(typeof result==='string'){const match=result.match(/\{[\s\S]*"html"[\s\S]*\}/);if(match)result=JSON.parse(match[0]);else throw new Error('AI response did not contain code JSON');}if(result.html!==undefined)window.codeState.html=result.html;if(result.css!==undefined)window.codeState.css=result.css;if(result.js!==undefined)window.codeState.js=result.js;switchTab('html');$('codeEditor').value=window.codeState.html;renderPreview();$('aiOutput').textContent=data.message||'Generated code applied to the editor. Review it, then save your project.';toast('AI code applied');}catch(e){$('aiOutput').textContent='AI request failed: '+e.message+'\nCheck your Worker URL, deployment and CORS settings.';}finally{btn.disabled=false;}}
+$('codeEditor').addEventListener('input',()=>{window.codeState[currentTab]=$('codeEditor').value;updateLines();renderPreview();});
+$('codeEditor').addEventListener('scroll',()=>$('lineNumbers').scrollTop=$('codeEditor').scrollTop);
+$('codeEditor').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const a=e.target.selectionStart,b=e.target.selectionEnd;e.target.setRangeText('  ',a,b,'end');syncEditor();}});
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{window.codeState[currentTab]=$('codeEditor').value;switchTab(b.dataset.tab);$('codeEditor').focus();}));
+document.querySelectorAll('[data-template]').forEach(el=>el.addEventListener('click',()=>applyTemplate(el.dataset.template)));
+$('runBtn').onclick=renderPreview;$('refreshBtn').onclick=renderPreview;$('saveBtn').onclick=saveProject;$('newBtn').onclick=newProject;$('newProjectBtn').onclick=newProject;$('downloadBtn').onclick=downloadProject;$('resetBtn').onclick=()=>{if(confirm('Reset current code to the starter example?')){window.codeState={...defaults};switchTab('html');$('codeEditor').value=window.codeState.html;renderPreview();toast('Editor reset');}};$('copyBtn').onclick=copyCode;$('formatBtn').onclick=basicFormat;$('generateBtn').onclick=()=>generateAI(false);$('improveBtn').onclick=()=>generateAI(true);$('saveEndpoint').onclick=()=>{localStorage.setItem('ztws_endpoint',$('aiEndpoint').value.trim());toast('AI endpoint saved');};
+try{projects=JSON.parse(localStorage.getItem('ztws_projects')||'[]')}catch(e){projects=[]}
+$('aiEndpoint').value=localStorage.getItem('ztws_endpoint')||'';
+if(!projects.length){projects=[{id:'default',name:'Starter project',code:{...defaults},updated:Date.now()}];}
+renderProjects();loadProject(projects[0]);if(!localStorage.getItem('ztws_projects'))saveProject();
+
+// Cloud builder scaffold: requires a deployed, authenticated build API.
+const buildUrlKey='ztws_build_endpoint';
+const buildInput=document.getElementById('buildEndpoint');
+if(buildInput) buildInput.value=localStorage.getItem(buildUrlKey)||'';
+if(document.getElementById('buildApkBtn')) document.getElementById('buildApkBtn').onclick=async()=>{
+  const endpoint=buildInput.value.trim();
+  if(!endpoint){document.getElementById('buildOutput').textContent='Set your deployed build API URL first. See README.md for the backend setup.';return;}
+  localStorage.setItem(buildUrlKey,endpoint);
+  const appName=document.getElementById('androidAppName').value.trim();
+  const packageName=document.getElementById('androidPackage').value.trim();
+  if(!/^[A-Za-z_][A-Za-z0-9_]*(\\.[A-Za-z_][A-Za-z0-9_]*)+$/.test(packageName)){document.getElementById('buildOutput').textContent='Invalid application ID. Example: com.example.myapp';return;}
+  const btn=document.getElementById('buildApkBtn');btn.disabled=true;
+  document.getElementById('buildOutput').textContent='Submitting build request…';
+  try{
+    const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({appName,packageName,projectType:'android-template',template:'basic-activity'})});
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||('HTTP '+response.status));
+    document.getElementById('buildOutput').textContent='Build queued. Job ID: '+(data.jobId||'unknown')+'. '+(data.message||'Check your build dashboard for status.');
+  }catch(e){document.getElementById('buildOutput').textContent='Build request failed: '+e.message+'\\nDeploy the backend described in README.md and use its HTTPS URL.';}
+  finally{btn.disabled=false;}
+};
+if(document.getElementById('downloadProjectBtn')) document.getElementById('downloadProjectBtn').onclick=()=>{
+ const files={'index.html':window.codeState.html,'style.css':window.codeState.css,'script.js':window.codeState.js,'README.txt':'ZT Web Studio project export. HTML/CSS/JS are exported as separate files.'};
+ const payload=JSON.stringify({name:document.getElementById('projectTitle').textContent,files},null,2);
+ const blob=new Blob([payload],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='zt-web-studio-project.json';a.click();URL.revokeObjectURL(url);
+};
+
+</script>
+</body></html>
